@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:ReminderProX.Controls"
+             xmlns:models="clr-namespace:ReminderProX.Models"
+             x:Class="ReminderProX.Controls.RechargeCardView"
+             x:Name="CardRoot"
+             x:DataType="controls:RechargeCardView"
+             BackgroundColor="Transparent">
+    <SwipeView Margin="0,4,0,8" BackgroundColor="Transparent">
+        <SwipeView.LeftItems>
+            <SwipeItems Mode="Reveal">
+                <SwipeItemView BackgroundColor="Transparent"
+                               Command="{Binding EditCommand, Source={x:Reference CardRoot}}"
+                               CommandParameter="{Binding Item, Source={x:Reference CardRoot}}">
+                    <Grid WidthRequest="70" VerticalOptions="Fill" HorizontalOptions="Fill">
+                        <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="4">
+                            <Image Source="icon_edit.png" WidthRequest="22" HeightRequest="64" Aspect="AspectFit" />
+                            <Label Text="Edit" TextColor="White" FontSize="11" FontAttributes="Bold" HorizontalOptions="Center" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </SwipeItemView>
+                <SwipeItemView BackgroundColor="Transparent"
+                               Command="{Binding DeleteCommand, Source={x:Reference CardRoot}}"
+                               CommandParameter="{Binding Item, Source={x:Reference CardRoot}}">
+                    <Grid WidthRequest="70" VerticalOptions="Fill" HorizontalOptions="Fill">
+                        <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="4">
+                            <Image Source="icon_delete.png" WidthRequest="22" HeightRequest="64" Aspect="AspectFit" />
+                            <Label Text="Delete" TextColor="White" FontSize="11" FontAttributes="Bold" HorizontalOptions="Center" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </SwipeItemView>
+            </SwipeItems>
+        </SwipeView.LeftItems>
+        <SwipeView.RightItems>
+            <SwipeItems Mode="Reveal">
+                <SwipeItemView BackgroundColor="Transparent"
+                               Command="{Binding WhatsAppCommand, Source={x:Reference CardRoot}}"
+                               CommandParameter="{Binding Item, Source={x:Reference CardRoot}}">
+                    <Grid WidthRequest="75" VerticalOptions="Fill" HorizontalOptions="Fill">
+                        <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="4">
+                            <Image Source="icon_whatsapp.png" WidthRequest="24" HeightRequest="64" Aspect="AspectFit" />
+                            <Label Text="WhatsApp" TextColor="White" FontSize="11" FontAttributes="Bold" HorizontalOptions="Center" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </SwipeItemView>
+                <SwipeItemView BackgroundColor="Transparent"
+                               Command="{Binding CallCommand, Source={x:Reference CardRoot}}"
+                               CommandParameter="{Binding Item, Source={x:Reference CardRoot}}">
+                    <Grid WidthRequest="70" VerticalOptions="Fill" HorizontalOptions="Fill">
+                        <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="4">
+                            <Image Source="icon_call.png" WidthRequest="22" HeightRequest="64" Aspect="AspectFit" />
+                            <Label Text="Call" TextColor="White" FontSize="11" FontAttributes="Bold" HorizontalOptions="Center" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </SwipeItemView>
+                <SwipeItemView BackgroundColor="Transparent"
+                               Command="{Binding CopyCommand, Source={x:Reference CardRoot}}"
+                               CommandParameter="{Binding Item, Source={x:Reference CardRoot}}">
+                    <Grid WidthRequest="70" VerticalOptions="Fill" HorizontalOptions="Fill">
+                        <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="4">
+                            <Image Source="icon_copy.png" WidthRequest="22" HeightRequest="64" Aspect="AspectFit" />
+                            <Label Text="Copy" TextColor="White" FontSize="11" FontAttributes="Bold" HorizontalOptions="Center" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </SwipeItemView>
+            </SwipeItems>
+        </SwipeView.RightItems>
+
+        <Border StrokeShape="RoundRectangle 16"
+                Stroke="{AppThemeBinding Light=#2196F3, Dark=#64B5F6}"
+                StrokeThickness="1.5"
+                Padding="16,14"
+                BackgroundColor="{AppThemeBinding Light=#FFFFFF, Dark=#1E1E1E}">
+            <FlyoutBase.ContextFlyout>
+                <MenuFlyout>
+                    <MenuFlyoutItem Text="Edit"
+                                    IconImageSource="icon_edit.png"
+                                    Command="{Binding EditCommand, Source={x:Reference CardRoot}}"
+                                    CommandParameter="{Binding Item, Source={x:Reference CardRoot}}" />
+                    <MenuFlyoutItem Text="Delete"
+                                    IconImageSource="icon_delete.png"
+                                    Command="{Binding DeleteCommand, Source={x:Reference CardRoot}}"
+                                    CommandParameter="{Binding Item, Source={x:Reference CardRoot}}" />
+                    <MenuFlyoutSeparator />
+                    <MenuFlyoutItem Text="Send WhatsApp Reminder"
+                                    Command="{Binding WhatsAppCommand, Source={x:Reference CardRoot}}"
+                                    CommandParameter="{Binding Item, Source={x:Reference CardRoot}}" />
+                    <MenuFlyoutItem Text="Call"
+                                    IconImageSource="icon_call.png"
+                                    Command="{Binding CallCommand, Source={x:Reference CardRoot}}"
+                                    CommandParameter="{Binding Item, Source={x:Reference CardRoot}}" />
+                    <MenuFlyoutItem Text="Copy"
+                                    IconImageSource="icon_copy.png"
+                                    Command="{Binding CopyCommand, Source={x:Reference CardRoot}}"
+                                    CommandParameter="{Binding Item, Source={x:Reference CardRoot}}" />
+                </MenuFlyout>
+            </FlyoutBase.ContextFlyout>
+            <Grid ColumnDefinitions="*, Auto" ColumnSpacing="12" VerticalOptions="Center">
+                <VerticalStackLayout Grid.Column="0" Spacing="4" VerticalOptions="Center">
+                    <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
+                        <Image Source="{Binding Item.OperatorIcon, Source={x:Reference CardRoot}}"
+                               HeightRequest="24"
+                               WidthRequest="36"
+                               Aspect="AspectFit"
+                               VerticalOptions="Center" />
+                        <Label Text="{Binding Item.Name, Source={x:Reference CardRoot}}"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               LineBreakMode="TailTruncation"
+                               TextColor="{AppThemeBinding Light=#000000, Dark=#FFFFFF}"
+                               VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                    <Label Text="{Binding Item.Number, Source={x:Reference CardRoot}}"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#2196F3" />
+                    <HorizontalStackLayout Spacing="3">
+                        <Label Text="Recharged: " FontSize="11" TextColor="{AppThemeBinding Light=#616161, Dark=#9E9E9E}" FontAttributes="Bold" />
+                        <Label Text="{Binding Item.RechargedAt, Source={x:Reference CardRoot}, Converter={StaticResource DateTimeFormatConverter}}"
+                               FontSize="10"
+                               TextColor="{AppThemeBinding Light=#424242, Dark=#BDBDBD}"
+                               FontAttributes="Bold" />
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout Spacing="3">
+                        <Label Text="Expires: " FontSize="11" TextColor="{AppThemeBinding Light=#616161, Dark=#9E9E9E}" FontAttributes="Bold" />
+                        <Label Text="{Binding Item.DueDate, Source={x:Reference CardRoot}, Converter={StaticResource DateTimeFormatConverter}}"
+                               FontSize="11"
+                               TextColor="#FF5252"
+                               FontAttributes="Bold" />
+                    </HorizontalStackLayout>
+                    <Label Text="{Binding Item.Amount, Source={x:Reference CardRoot}, Converter={StaticResource CurrencyFormatConverter}}"
+                           FontSize="22"
+                           FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light=#6200EE, Dark=#BB86FC}"
+                           Margin="0,2,0,0" />
+                </VerticalStackLayout>
+                <Grid Grid.Column="1" WidthRequest="94" HeightRequest="94" VerticalOptions="Center" HorizontalOptions="Center">
+                    <controls:CircularProgressControl x:Name="ProgressBar"
+                                                      HeightRequest="90"
+                                                      WidthRequest="90"
+                                                      Progress="{Binding Item, Source={x:Reference CardRoot}, Converter={StaticResource DaysLeftToProgressConverter}}"
+                                                      ProgressColor="{Binding Item, Source={x:Reference CardRoot}, Converter={StaticResource DaysLeftToBadgeColorConverter}}" />
+                    <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="0">
+                        <Label Text="{Binding Item, Source={x:Reference CardRoot}, Converter={StaticResource DaysLeftCountConverter}}"
+                               FontSize="22"
+                               FontAttributes="Bold"
+                               TextColor="{AppThemeBinding Light=#212121, Dark=#FFFFFF}"
+                               HorizontalOptions="Center" />
+                        <Label Text="Days Left"
+                               FontSize="10"
+                               FontAttributes="Bold"
+                               TextColor="{AppThemeBinding Light=#616161, Dark=#B0B0B0}"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                </Grid>
+            </Grid>
+        </Border>
+    </SwipeView>
+</ContentView>

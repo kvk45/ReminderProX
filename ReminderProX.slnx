@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+  </Folder>
+  <Project Path="ReminderProX/ReminderProX.csproj">
+    <Deploy />
+  </Project>
+</Solution>

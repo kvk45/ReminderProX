@@ -1,0 +1,167 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0D47A1"/>
+      <stop offset="50%" stop-color="#1976D2"/>
+      <stop offset="100%" stop-color="#2196F3"/>
+    </linearGradient>
+
+    <!-- Progress Ring Gradient -->
+    <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00E676"/>
+      <stop offset="50%" stop-color="#FFD600"/>
+      <stop offset="100%" stop-color="#FF1744"/>
+    </linearGradient>
+
+    <!-- Glow Filter -->
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <style>
+      /* Rotating Outer Ring */
+      .spin-ring {
+        transform-origin: 250px 210px;
+        animation: spin 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+      }
+      @keyframes spin {
+        0% { transform: rotate(0deg); stroke-dashoffset: 600; }
+        50% { stroke-dashoffset: 150; }
+        100% { transform: rotate(360deg); stroke-dashoffset: 600; }
+      }
+
+      /* Ringing Bell Animation */
+      .bell-group {
+        transform-origin: 250px 145px;
+        animation: ringBell 2.5s ease-in-out infinite;
+      }
+      @keyframes ringBell {
+        0%, 65%, 100% { transform: rotate(0deg); }
+        70% { transform: rotate(18deg); }
+        75% { transform: rotate(-16deg); }
+        80% { transform: rotate(12deg); }
+        85% { transform: rotate(-8deg); }
+        90% { transform: rotate(4deg); }
+        95% { transform: rotate(-2deg); }
+      }
+
+      /* Pulsing Signal Waves */
+      .wave-1 {
+        animation: pulseWave 2s infinite ease-out;
+      }
+      .wave-2 {
+        animation: pulseWave 2s infinite ease-out 0.4s;
+      }
+      @keyframes pulseWave {
+        0% { opacity: 0; transform: scale(0.8); transform-origin: 250px 210px; }
+        50% { opacity: 0.8; }
+        100% { opacity: 0; transform: scale(1.25); transform-origin: 250px 210px; }
+      }
+
+      /* Fade in Elements */
+      .fade-pop {
+        animation: popUp 1.2s ease-out forwards;
+      }
+      @keyframes popUp {
+        0% { opacity: 0; transform: scale(0.6); transform-origin: 250px 210px; }
+        100% { opacity: 1; transform: scale(1); transform-origin: 250px 210px; }
+      }
+
+      /* Text Glow Pulse */
+      .text-pulse {
+        animation: textGlow 2s infinite alternate ease-in-out;
+      }
+      @keyframes textGlow {
+        from { opacity: 0.85; filter: drop-shadow(0 0 2px rgba(255,255,255,0.4)); }
+        to { opacity: 1; filter: drop-shadow(0 0 10px rgba(255,255,255,0.9)); }
+      }
+    </style>
+  </defs>
+
+  <!-- Background Shape -->
+  <rect width="100%" height="100%" rx="35" fill="url(#bgGrad)" />
+
+  <!-- Radio Waves Pulse (Recharge & Network theme) -->
+  <circle class="wave-1" cx="250" cy="210" r="115" fill="none" stroke="#64B5F6" stroke-width="2.5" opacity="0"/>
+  <circle class="wave-2" cx="250" cy="210" r="130" fill="none" stroke="#90CAF9" stroke-width="2" opacity="0"/>
+
+  <!-- Inner Soft Base Plate -->
+  <circle cx="250" cy="210" r="95" fill="#0D47A1" opacity="0.4" />
+
+  <!-- Background Track Ring -->
+  <circle cx="250" cy="210" r="88" fill="none" stroke="#1565C0" stroke-width="8" opacity="0.6"/>
+
+  <!-- Animated Rotating Circular Progress Ring -->
+  <circle class="spin-ring" cx="250" cy="210" r="88" fill="none" stroke="url(#ringGrad)" stroke-width="8.5"
+          stroke-linecap="round" stroke-dasharray="552" stroke-dashoffset="350" filter="url(#glow)"/>
+
+  <!-- Main Animated Group (Bell & Icons) -->
+  <g class="fade-pop">
+    <!-- Bell Animation Group -->
+    <g class="bell-group">
+      <!-- Bell Top Hook -->
+      <path d="M 250 145 C 243 145 243 158 250 158 C 257 158 257 145 250 145 Z" fill="#FFD54F"/>
+      
+      <!-- Bell Body -->
+      <path d="M 222 225 C 222 175 233 162 250 162 C 267 162 278 175 278 225 L 286 235 C 288 238 286 242 281 242 L 219 242 C 214 242 212 238 214 235 Z" 
+            fill="#FFC107" filter="url(#glow)"/>
+
+      <!-- Bell Bottom Clapper -->
+      <circle cx="250" cy="248" r="8.5" fill="#FFA000"/>
+
+      <!-- Inner Tech Slash / Pulse Symbol inside Bell -->
+      <path d="M 243 195 L 253 195 L 246 208 L 257 208 L 245 227 L 248 214 L 240 214 Z" fill="#FFFFFF" opacity="0.95"/>
+    </g>
+
+    <!-- Mini Floating Currency Badge (Ledger & Payment Theme) -->
+    <g transform="translate(305, 155)">
+      <circle cx="16" cy="16" r="16" fill="#4CAF50" filter="url(#glow)"/>
+      <text x="16" y="22" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#FFFFFF" text-anchor="middle">₹</text>
+    </g>
+
+    <!-- Mini Floating Mobile/DTH Signal Sparkle -->
+    <g transform="translate(165, 155)">
+      <circle cx="16" cy="16" r="16" fill="#AB47BC" filter="url(#glow)"/>
+      <path d="M 11 23 L 11 20 M 16 23 L 16 16 M 21 23 L 21 11" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <!-- App Branding Title -->
+  <g class="text-pulse">
+    <text x="250" y="375" 
+          font-family="'Segoe UI', Roboto, Helvetica, Arial, sans-serif" 
+          font-size="34" 
+          font-weight="800" 
+          letter-spacing="2"
+          fill="#FFFFFF" 
+          text-anchor="middle">
+      Reminder<tspan fill="#64B5F6">Pro</tspan><tspan fill="#00E676">X</tspan>
+    </text>
+
+    <!-- App Subtitle -->
+    <text x="250" y="405" 
+          font-family="'Segoe UI', Roboto, Helvetica, Arial, sans-serif" 
+          font-size="13" 
+          font-weight="600" 
+          letter-spacing="3"
+          fill="#BBDEFB" 
+          text-anchor="middle">
+      RECHARGE &amp; LEDGER TRACKER
+    </text>
+  </g>
+
+  <!-- Bottom Mini Loading Dots -->
+  <g transform="translate(225, 435)">
+    <circle cx="10" cy="10" r="3.5" fill="#FFFFFF" opacity="0.4">
+      <animate attributeName="opacity" values="0.2;1;0.2" dur="1.2s" repeatCount="indefinite" begin="0s"/>
+    </circle>
+    <circle cx="25" cy="10" r="3.5" fill="#FFFFFF" opacity="0.4">
+      <animate attributeName="opacity" values="0.2;1;0.2" dur="1.2s" repeatCount="indefinite" begin="0.2s"/>
+    </circle>
+    <circle cx="40" cy="10" r="3.5" fill="#FFFFFF" opacity="0.4">
+      <animate attributeName="opacity" values="0.2;1;0.2" dur="1.2s" repeatCount="indefinite" begin="0.4s"/>
+    </circle>
+  </g>
+</svg>

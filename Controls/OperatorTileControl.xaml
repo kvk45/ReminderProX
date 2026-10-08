@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:ReminderProX.Controls"
+             x:Class="ReminderProX.Controls.OperatorTileControl"
+             x:Name="TileRoot"
+             x:DataType="controls:OperatorTileControl">
+    <Border StrokeShape="RoundRectangle 12"
+            Stroke="{Binding BorderColor, Source={x:Reference TileRoot}}"
+            StrokeThickness="2"
+            Padding="8"
+            WidthRequest="84"
+            HeightRequest="84"
+            Opacity="{Binding TileOpacity, Source={x:Reference TileRoot}}"
+            BackgroundColor="{AppThemeBinding Light=#FFFFFF, Dark=#2A2A2A}">
+        <Border.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding SelectCommand, Source={x:Reference TileRoot}}"
+                                  CommandParameter="{Binding CommandParameter, Source={x:Reference TileRoot}}" />
+        </Border.GestureRecognizers>
+        <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="4">
+            <Image Source="{Binding ImageSource, Source={x:Reference TileRoot}}"
+                   WidthRequest="40"
+                   HeightRequest="40"
+                   Aspect="AspectFit" />
+            <Label Text="{Binding TitleText, Source={x:Reference TileRoot}}"
+                   FontSize="10"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   MaxLines="1"
+                   LineBreakMode="TailTruncation" />
+        </VerticalStackLayout>
+    </Border>
+</ContentView>

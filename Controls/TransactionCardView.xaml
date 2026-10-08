@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:ReminderProX.Controls"
+             xmlns:models="clr-namespace:ReminderProX.Models"
+             x:Class="ReminderProX.Controls.TransactionCardView"
+             x:Name="TxCardRoot"
+             x:DataType="controls:TransactionCardView">
+    <SwipeView Margin="0,0,0,10">
+        <SwipeView.RightItems>
+            <SwipeItems Mode="Execute">
+                <SwipeItem Text="Delete"
+                           BackgroundColor="#D32F2F"
+                           IconImageSource="icon_delete.png"
+                           Command="{Binding DeleteCommand, Source={x:Reference TxCardRoot}}"
+                           CommandParameter="{Binding Item, Source={x:Reference TxCardRoot}}" />
+            </SwipeItems>
+        </SwipeView.RightItems>
+        <Grid Padding="0,2">
+            <Border StrokeShape="RoundRectangle 12"
+                    StrokeThickness="0"
+                    Padding="14,12"
+                    MinimumWidthRequest="220"
+                    MaximumWidthRequest="320"
+                    BackgroundColor="{Binding Item.TransactionType, Source={x:Reference TxCardRoot}, Converter={StaticResource TransactionTypeToCardColorConverter}}"
+                    HorizontalOptions="{Binding Item.TransactionType, Source={x:Reference TxCardRoot}, Converter={StaticResource TransactionTypeToAlignmentConverter}}">
+                <FlyoutBase.ContextFlyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Text="Delete"
+                                        IconImageSource="icon_delete.png"
+                                        Command="{Binding DeleteCommand, Source={x:Reference TxCardRoot}}"
+                                        CommandParameter="{Binding Item, Source={x:Reference TxCardRoot}}" />
+                    </MenuFlyout>
+                </FlyoutBase.ContextFlyout>
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="{Binding Item.PreviousBalance, Source={x:Reference TxCardRoot}, StringFormat='Previous: ₹{0:N0}'}"
+                           FontSize="11"
+                           TextColor="#FFFFFF"
+                           Opacity="0.85"/>
+
+                    <HorizontalStackLayout Spacing="4">
+                        <Label Text="{Binding Item.TransactionType, Source={x:Reference TxCardRoot}}"
+                               FontAttributes="Bold"
+                               FontSize="15"
+                               TextColor="#FFFFFF"/>
+                        <Label Text=":"
+                               FontAttributes="Bold"
+                               FontSize="15"
+                               TextColor="#FFFFFF"/>
+                        <Label Text="{Binding Item.Amount, Source={x:Reference TxCardRoot}, Converter={StaticResource CurrencyFormatConverter}}"
+                               FontAttributes="Bold"
+                               FontSize="15"
+                               TextColor="#FFFFFF"/>
+                    </HorizontalStackLayout>
+
+                    <Label Text="{Binding Item.Note, Source={x:Reference TxCardRoot}}"
+                           FontSize="12"
+                           TextColor="#FFFFFF"
+                           LineBreakMode="WordWrap"
+                           IsVisible="{Binding Item.Note, Source={x:Reference TxCardRoot}, Converter={StaticResource StringToBoolConverter}}"/>
+
+                    <Label Text="{Binding Item.CreatedDateTime, Source={x:Reference TxCardRoot}, Converter={StaticResource DateTimeFormatConverter}}"
+                           FontSize="10"
+                           TextColor="#FFFFFF"
+                           Opacity="0.8"
+                           Margin="0,4,0,0"/>
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+    </SwipeView>
+</ContentView>
