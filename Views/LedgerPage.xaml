@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:ReminderProX.Controls"
+             xmlns:models="clr-namespace:ReminderProX.Models"
+             xmlns:vm="clr-namespace:ReminderProX.ViewModels"
+             x:Class="ReminderProX.Views.LedgerPage"
+             x:DataType="vm:LedgerViewModel"
+             Title="{Binding Title}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Refresh" Command="{Binding RefreshCommand}" IconImageSource="icon_refresh.png" />
+    </ContentPage.ToolbarItems>
+    <Grid RowDefinitions="Auto, Auto, Auto, *" Padding="16" RowSpacing="12">
+        <Grid Grid.Row="0" ColumnDefinitions="*, *" ColumnSpacing="12">
+            <controls:SummaryBadgeCard Grid.Column="0"
+                                       TitleText="Paid"
+                                       AmountText="{Binding TotalPaid, StringFormat='₹{0:N2}'}"
+                                       TextColor="#D32F2F"
+                                       CardBackgroundColor="#FFE2E2"
+                                       CardBorderColor="#F44336" />
+            <controls:SummaryBadgeCard Grid.Column="1"
+                                       TitleText="Received"
+                                       AmountText="{Binding TotalReceived, StringFormat='₹{0:N2}'}"
+                                       TextColor="#2E7D32"
+                                       CardBackgroundColor="#E8F5E9"
+                                       CardBorderColor="#4CAF50" />
+        </Grid>
+        <SearchBar Grid.Row="1"
+                   Placeholder="Search User Name..."
+                   Text="{Binding SearchQuery, Mode=TwoWay}"
+                   SearchCommand="{Binding SearchCommand}"
+                   Margin="0,4,0,0" />
+        <Grid Grid.Row="2" ColumnDefinitions="*, Auto" ColumnSpacing="10">
+            <Entry Grid.Column="0" Text="{Binding NewUserName}" Placeholder="Enter User Name to Add" VerticalOptions="Center" />
+            <Button Grid.Column="1" Text="+ Add" Command="{Binding AddLedgerCommand}" BackgroundColor="#2196F3" TextColor="White" FontAttributes="Bold" CornerRadius="8" HeightRequest="44" WidthRequest="80" />
+        </Grid>
+        <RefreshView Grid.Row="3" IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}">
+            <CollectionView ItemsSource="{Binding Ledgers}"
+                            ItemSizingStrategy="MeasureFirstItem"
+                            RemainingItemsThreshold="3"
+                            RemainingItemsThresholdReachedCommand="{Binding LoadMoreLedgersCommand}">
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="8">
+                        <Label Text="No Ledger Records Found" FontSize="16" TextColor="Gray" HorizontalOptions="Center" />
+                        <Label Text="Pull down to refresh" FontSize="12" TextColor="Silver" HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:LedgerItemModel">
+                        <controls:LedgerCardView Item="{Binding .}"
+                                                 OpenCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:LedgerViewModel}}, Path=OpenTransactionCommand}"
+                                                 DeleteCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:LedgerViewModel}}, Path=DeleteLedgerCommand}" />
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+    </Grid>
+</ContentPage>

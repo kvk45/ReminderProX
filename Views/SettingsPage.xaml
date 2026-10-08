@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:ReminderProX.ViewModels"
+             x:Class="ReminderProX.Views.SettingsPage"
+             x:DataType="vm:SettingsViewModel"
+             Title="{Binding Title}"
+             BackgroundColor="{AppThemeBinding Light=#F8F9FA, Dark=#121212}">
+    <ScrollView Padding="16">
+        <VerticalStackLayout Spacing="20">
+            <Border Padding="16" StrokeShape="RoundRectangle 12" Stroke="#E0E0E0" BackgroundColor="{AppThemeBinding Light=White, Dark=#1E1E1E}">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="Microsoft Account" FontAttributes="Bold" FontSize="16" TextColor="{AppThemeBinding Light=#1A1A1A, Dark=#FFFFFF}" />
+                    <VerticalStackLayout IsVisible="{Binding CurrentUser.IsSignedIn}" Spacing="4">
+                        <Label Text="{Binding CurrentUser.DisplayName}" FontAttributes="Bold" TextColor="#2196F3" FontSize="15" />
+                        <Label Text="{Binding CurrentUser.Email}" FontSize="13" TextColor="Gray" />
+                    </VerticalStackLayout>
+                    <Button Command="{Binding ToggleAuthCommand}"
+                            Text="Sign In"
+                            BackgroundColor="#2196F3"
+                            TextColor="White"
+                            CornerRadius="8"
+                            FontAttributes="Bold"
+                            HeightRequest="44">
+                        <Button.Triggers>
+                            <DataTrigger TargetType="Button" Binding="{Binding CurrentUser.IsSignedIn}" Value="True">
+                                <Setter Property="Text" Value="Sign Out" />
+                                <Setter Property="BackgroundColor" Value="#F44336" />
+                            </DataTrigger>
+                        </Button.Triggers>
+                    </Button>
+                </VerticalStackLayout>
+            </Border>
+
+            <Border Padding="16" StrokeShape="RoundRectangle 12" Stroke="#E0E0E0" BackgroundColor="{AppThemeBinding Light=White, Dark=#1E1E1E}">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="Cloud Data Backup (OneDrive)" FontAttributes="Bold" FontSize="16" TextColor="{AppThemeBinding Light=#1A1A1A, Dark=#FFFFFF}" />
+                    <Label Text="Backup your reminders, ledgers, and transactions to Microsoft OneDrive or restore them." FontSize="12" TextColor="Gray" />
+
+                    <Grid ColumnDefinitions="*, Auto" VerticalOptions="Center" Margin="0,4,0,0">
+                        <VerticalStackLayout Grid.Column="0" Spacing="2">
+                            <Label Text="Daily Auto Sync" FontAttributes="Bold" FontSize="14" TextColor="{AppThemeBinding Light=#1A1A1A, Dark=#FFFFFF}" />
+                            <Label Text="Automatically sync data with OneDrive daily" FontSize="11" TextColor="Gray" />
+                        </VerticalStackLayout>
+                        <Switch Grid.Column="1" IsToggled="{Binding IsAutoBackupEnabled, Mode=TwoWay}" IsEnabled="{Binding CurrentUser.IsSignedIn}" />
+                    </Grid>
+
+                    <Grid ColumnDefinitions="*, *" ColumnSpacing="12" Margin="0,8,0,0">
+                        <Button Grid.Column="0" Text="☁️ Upload" Command="{Binding BackupDataCommand}" IsEnabled="{Binding CurrentUser.IsSignedIn}" BackgroundColor="#4CAF50" TextColor="White" CornerRadius="8" FontAttributes="Bold" HeightRequest="44" />
+                        <Button Grid.Column="1" Text="🔄 Restore" Command="{Binding RestoreDataCommand}" IsEnabled="{Binding CurrentUser.IsSignedIn}" BackgroundColor="#FF9800" TextColor="White" CornerRadius="8" FontAttributes="Bold" HeightRequest="44" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
+            <Border Padding="16" StrokeShape="RoundRectangle 12" Stroke="#E0E0E0" BackgroundColor="{AppThemeBinding Light=White, Dark=#1E1E1E}">
+                <Grid ColumnDefinitions="*, Auto" VerticalOptions="Center">
+                    <VerticalStackLayout Grid.Column="0" Spacing="2">
+                        <Label Text="Dark Mode" FontAttributes="Bold" FontSize="16" TextColor="{AppThemeBinding Light=#1A1A1A, Dark=#FFFFFF}" />
+                        <Label Text="Enable dark theme across the app" FontSize="12" TextColor="Gray" />
+                    </VerticalStackLayout>
+                    <Switch Grid.Column="1" IsToggled="{Binding IsDarkMode, Mode=TwoWay}" />
+                </Grid>
+            </Border>
+
+            <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" HorizontalOptions="Center" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

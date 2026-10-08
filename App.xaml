@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:ReminderProX.Converters"
+             x:Class="ReminderProX.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
+                <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
+            <converters:AuthButtonTextConverter x:Key="AuthButtonTextConverter" />
+            <converters:AuthButtonColorConverter x:Key="AuthButtonColorConverter" />
+            <converters:CurrencyFormatConverter x:Key="CurrencyFormatConverter" />
+            <converters:DateTimeFormatConverter x:Key="DateTimeFormatConverter" />
+            <converters:DaysLeftCountConverter x:Key="DaysLeftCountConverter" />
+            <converters:DaysLeftToProgressConverter x:Key="DaysLeftToProgressConverter" />
+            <converters:DaysLeftToBadgeColorConverter x:Key="DaysLeftToBadgeColorConverter" />
+            <converters:BalanceFormatConverter x:Key="BalanceFormatConverter" />
+            <converters:BalanceToBadgeColorConverter x:Key="BalanceToBadgeColorConverter" />
+            <converters:StringToBoolConverter x:Key="StringToBoolConverter" />
+            <converters:TransactionTypeToAlignmentConverter x:Key="TransactionTypeToAlignmentConverter" />
+            <converters:TransactionTypeToCardColorConverter x:Key="TransactionTypeToCardColorConverter" />
+            <converters:OperatorSelectedToBorderConverter x:Key="OperatorSelectedToBorderConverter" />
+            <converters:OperatorSelectedToOpacityConverter x:Key="OperatorSelectedToOpacityConverter" />
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

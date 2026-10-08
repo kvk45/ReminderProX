@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:ReminderProX.Controls"
+             xmlns:models="clr-namespace:ReminderProX.Models"
+             xmlns:viewmodels="clr-namespace:ReminderProX.ViewModels"
+             x:Class="ReminderProX.Views.MobilePage"
+             x:DataType="viewmodels:MobilePageViewModel"
+             Title="{Binding Title}"
+             BackgroundColor="{AppThemeBinding Light=#F8F9FA, Dark=#121212}">
+    <ScrollView Padding="16">
+        <VerticalStackLayout Spacing="16">
+            <Label Text="Select Mobile Operator" FontSize="14" FontAttributes="Bold" TextColor="{AppThemeBinding Light=#1A1A1A, Dark=#FFFFFF}" />
+            <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                <HorizontalStackLayout Spacing="12" BindableLayout.ItemsSource="{Binding Operators}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="models:OperatorOption">
+                            <controls:OperatorTileControl TitleText="{Binding Name}"
+                                                          ImageSource="{Binding Logo}"
+                                                          IsSelected="{Binding IsSelected}"
+                                                          SelectCommand="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:MobilePageViewModel}}, Path=SelectOperatorCommand}"
+                                                          CommandParameter="{Binding .}" />
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </HorizontalStackLayout>
+            </ScrollView>
+            <Grid ColumnDefinitions="*, Auto" ColumnSpacing="10" Margin="0,8,0,0">
+                <VerticalStackLayout Grid.Column="0" Spacing="4">
+                    <Label Text="User / Contact Name" FontSize="12" TextColor="Gray" />
+                    <Entry Text="{Binding UserName, Mode=TwoWay}" Placeholder="Enter name" FontSize="14" />
+                </VerticalStackLayout>
+                <ImageButton Grid.Column="1" Source="icon_contact_picker.png" Command="{Binding PickContactCommand}" VerticalOptions="End" HeightRequest="42" WidthRequest="42" BackgroundColor="Transparent" Aspect="AspectFit" />
+            </Grid>
+            <VerticalStackLayout Spacing="4">
+                <Label Text="Mobile Number" FontSize="12" TextColor="Gray" />
+                <Entry Text="{Binding MobileNumber, Mode=TwoWay}" Placeholder="Enter 10-digit number" Keyboard="Telephone" FontSize="14" />
+            </VerticalStackLayout>
+            <Grid ColumnDefinitions="*, *" ColumnSpacing="12">
+                <VerticalStackLayout Grid.Column="0" Spacing="4">
+                    <Label Text="Amount (₹)" FontSize="12" TextColor="Gray" />
+                    <Entry Text="{Binding Amount, Mode=TwoWay}" Placeholder="e.g. 299" Keyboard="Numeric" FontSize="14" />
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="1" Spacing="4">
+                    <Label Text="Validity (Days)" FontSize="12" TextColor="Gray" />
+                    <Entry Text="{Binding Validity, Mode=TwoWay}" Placeholder="e.g. 28" Keyboard="Numeric" FontSize="14" />
+                </VerticalStackLayout>
+            </Grid>
+            <Grid ColumnDefinitions="*, *" ColumnSpacing="12" Margin="0,16,0,0">
+                <Button Grid.Column="0" Text="Clear" Command="{Binding ClearCommand}" BackgroundColor="#757575" TextColor="White" />
+                <Button Grid.Column="1" Text="Save Reminder" Command="{Binding SaveCommand}" BackgroundColor="#4CAF50" TextColor="White" />
+            </Grid>
+            <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" HorizontalOptions="Center" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

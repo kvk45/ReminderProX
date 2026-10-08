@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:ReminderProX.Models"
+             xmlns:vm="clr-namespace:ReminderProX.ViewModels"
+             x:Class="ReminderProX.Views.RemindersPage"
+             x:DataType="vm:RemindersViewModel"
+             Title="{Binding Title}">
+    <Grid RowDefinitions="Auto, *" Padding="16" RowSpacing="12">
+        <VerticalStackLayout Grid.Row="0" Spacing="8">
+            <Entry Text="{Binding NewTitle}" Placeholder="Reminder Title" />
+            <Entry Text="{Binding NewDescription}" Placeholder="Description" />
+            <Button Text="Add Reminder" Command="{Binding AddReminderCommand}" BackgroundColor="#2196F3" TextColor="White" />
+        </VerticalStackLayout>
+        <CollectionView Grid.Row="1"
+                        ItemsSource="{Binding Reminders}"
+                        ItemSizingStrategy="MeasureFirstItem">
+            <CollectionView.EmptyView>
+                <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="8" Margin="0,40">
+                    <Label Text="No reminders added" FontSize="14" TextColor="Gray" HorizontalOptions="Center" />
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:ReminderCardModel">
+                    <SwipeView>
+                        <SwipeView.RightItems>
+                            <SwipeItems>
+                                <SwipeItem Text="Delete"
+                                           BackgroundColor="Red"
+                                           IconImageSource="icon_delete.png"
+                                           Command="{Binding Source={RelativeSource AncestorType={x:Type vm:RemindersViewModel}}, Path=DeleteReminderCommand}"
+                                           CommandParameter="{Binding .}" />
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+                        <Border Padding="12" Margin="0,4" StrokeShape="RoundRectangle 8" BackgroundColor="{AppThemeBinding Light=#F5F5F5, Dark=#1E1E1E}">
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="{Binding Name}" FontAttributes="Bold" FontSize="16" />
+                                <Label Text="{Binding RechargedAt, StringFormat='{0:dd MMM yyyy}'}" FontSize="12" TextColor="Gray" HorizontalOptions="End" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </SwipeView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>

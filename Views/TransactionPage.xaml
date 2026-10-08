@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:ReminderProX.Controls"
+             xmlns:models="clr-namespace:ReminderProX.Models"
+             xmlns:converters="clr-namespace:ReminderProX.Converters"
+             xmlns:vm="clr-namespace:ReminderProX.ViewModels"
+             x:Class="ReminderProX.Views.TransactionPage"
+             x:DataType="vm:TransactionViewModel"
+             Title="{Binding Title}">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:BalanceToBadgeColorConverter x:Key="BalanceToBadgeColorConverter" />
+            <converters:BalanceFormatConverter x:Key="BalanceFormatConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto, *, Auto" Padding="12" RowSpacing="12">
+        <Border Grid.Row="0"
+                StrokeShape="RoundRectangle 12"
+                StrokeThickness="1"
+                Stroke="{Binding CurrentBalance, Converter={StaticResource BalanceToBadgeColorConverter}}"
+                BackgroundColor="{Binding CurrentBalance, Converter={StaticResource BalanceToBadgeColorConverter}}"
+                Padding="18,12"
+                HorizontalOptions="Center">
+            <VerticalStackLayout Spacing="2" HorizontalOptions="Center">
+                <Label Text="Total Balance" 
+                       TextColor="White" 
+                       FontSize="12" 
+                       FontAttributes="Bold" 
+                       HorizontalOptions="Center"/>
+                <Label Text="{Binding CurrentBalance, Converter={StaticResource BalanceFormatConverter}}" 
+                       TextColor="White" 
+                       FontSize="24" 
+                       FontAttributes="Bold" 
+                       HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+        </Border>
+
+        <CollectionView Grid.Row="1"
+                        ItemsSource="{Binding Transactions}"
+                        ItemSizingStrategy="MeasureFirstItem"
+                        RemainingItemsThreshold="3"
+                        RemainingItemsThresholdReachedCommand="{Binding LoadMoreTransactionsCommand}">
+            <CollectionView.EmptyView>
+                <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="8">
+                    <Label Text="No Transactions Yet" FontSize="16" TextColor="Gray" HorizontalOptions="Center" />
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:TransactionModel">
+                    <controls:TransactionCardView Item="{Binding .}" DeleteCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:TransactionViewModel}}, Path=DeleteTransactionCommand}" />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Grid Grid.Row="2" ColumnDefinitions="2*, 3*, Auto, Auto" ColumnSpacing="8" VerticalOptions="Center">
+            <Entry Grid.Column="0" Text="{Binding Amount}" Placeholder="Amount (₹)" Keyboard="Numeric" />
+            <Entry Grid.Column="1" Text="{Binding Note}" Placeholder="Note (Optional)" />
+            <Button Grid.Column="2" Text="Debit" Command="{Binding AddDebitCommand}" BackgroundColor="#F44336" TextColor="White" FontAttributes="Bold" CornerRadius="8" HeightRequest="42" />
+            <Button Grid.Column="3" Text="Credit" Command="{Binding AddCreditCommand}" BackgroundColor="#4CAF50" TextColor="White" FontAttributes="Bold" CornerRadius="8" HeightRequest="42" />
+        </Grid>
+    </Grid>
+</ContentPage>

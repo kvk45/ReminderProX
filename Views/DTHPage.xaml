@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:ReminderProX.Controls"
+             xmlns:models="clr-namespace:ReminderProX.Models"
+             xmlns:viewmodels="clr-namespace:ReminderProX.ViewModels"
+             x:Class="ReminderProX.Views.DTHPage"
+             x:DataType="viewmodels:DTHPageViewModel"
+             Title="{Binding Title}"
+             BackgroundColor="{AppThemeBinding Light=#F8F9FA, Dark=#121212}">
+    <ScrollView Padding="16">
+        <VerticalStackLayout Spacing="16">
+            <Label Text="Select DTH Operator" FontSize="14" FontAttributes="Bold" TextColor="{AppThemeBinding Light=#1A1A1A, Dark=#FFFFFF}" />
+            <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                <HorizontalStackLayout Spacing="12" BindableLayout.ItemsSource="{Binding Operators}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="models:OperatorOption">
+                            <controls:OperatorTileControl TitleText="{Binding Name}"
+                                                          ImageSource="{Binding Logo}"
+                                                          IsSelected="{Binding IsSelected}"
+                                                          SelectCommand="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:DTHPageViewModel}}, Path=SelectOperatorCommand}"
+                                                          CommandParameter="{Binding .}" />
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </HorizontalStackLayout>
+            </ScrollView>
+            <VerticalStackLayout Spacing="4" Margin="0,8,0,0">
+                <Label Text="Customer Name" FontSize="12" TextColor="Gray" />
+                <Entry Text="{Binding UserName, Mode=TwoWay}" Placeholder="Enter name" FontSize="14" />
+            </VerticalStackLayout>
+            <VerticalStackLayout Spacing="4">
+                <Label Text="Subscriber / Consumer ID" FontSize="12" TextColor="Gray" />
+                <Entry Text="{Binding ConsumerNumber, Mode=TwoWay}" Placeholder="Enter Subscriber ID" Keyboard="Numeric" FontSize="14" />
+            </VerticalStackLayout>
+            <Grid ColumnDefinitions="*, *" ColumnSpacing="12">
+                <VerticalStackLayout Grid.Column="0" Spacing="4">
+                    <Label Text="Amount (₹)" FontSize="12" TextColor="Gray" />
+                    <Entry Text="{Binding Amount, Mode=TwoWay}" Placeholder="e.g. 450" Keyboard="Numeric" FontSize="14" />
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="1" Spacing="4">
+                    <Label Text="Validity (Days)" FontSize="12" TextColor="Gray" />
+                    <Entry Text="{Binding Validity, Mode=TwoWay}" Placeholder="e.g. 30" Keyboard="Numeric" FontSize="14" />
+                </VerticalStackLayout>
+            </Grid>
+            <Grid ColumnDefinitions="*, *" ColumnSpacing="12" Margin="0,16,0,0">
+                <Button Grid.Column="0" Text="Clear" Command="{Binding ClearCommand}" BackgroundColor="#757575" TextColor="White" />
+                <Button Grid.Column="1" Text="Save Reminder" Command="{Binding SaveCommand}" BackgroundColor="#4CAF50" TextColor="White" />
+            </Grid>
+            <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" HorizontalOptions="Center" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
